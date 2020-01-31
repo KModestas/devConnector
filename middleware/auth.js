@@ -10,7 +10,7 @@ module.exports = (req, res, next) => {
 	// verify token using secret
 	try {
 		const decoded = jwt.verify(token, jwtSecret)
-
+		// set decoded user to req.user to allow them to access protected routes when making requests
 		req.user = decoded.user
 		// move onto the next middleware
 		next()
