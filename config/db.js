@@ -1,8 +1,7 @@
 // set up a seprate file to confirgure the database
 const mongoose = require('mongoose')
 // use config (similar to env variables) to get the db key
-const config = require('config')
-const db = config.get('mongoURI')
+const db = require('config').get('mongoURI')
 
 // NOTE - using private serach engines like duck duck GO can alter your ip address which will need to be whitelisted
 
@@ -11,7 +10,7 @@ const connectDB = async () => {
 	try {
 		await mongoose.connect(db, {
 			useNewUrlParser: true,
-			// useCreateIndex: true,
+			useCreateIndex: true,
 			useUnifiedTopology: true
 		})
 		console.log('MongoDB connected')

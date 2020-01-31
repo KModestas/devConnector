@@ -5,6 +5,10 @@ const app = express()
 // connect to DB
 connectDB()
 
+// Middleware
+// parse req.body requests => extended false does not allow nested objects
+app.use(express.json({ extended: false }))
+
 app.get('/', (req, res) => res.send('API RUNNING'))
 
 app.use('/api/users', require('./routes/api/users'))

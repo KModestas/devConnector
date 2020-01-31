@@ -1,6 +1,6 @@
-const mongosoe = require('mongoose')
+const mongoose = require('mongoose')
 
-const UserSchema = new mongosoe.Schema({
+const UserSchema = new mongoose.Schema({
 	name: {
 		type: String,
 		trim: true,
@@ -24,6 +24,7 @@ const UserSchema = new mongosoe.Schema({
 		type: Date,
 		default: Date.now()
 	}
-	// will automatically create fields for when created or edited
-	// timestamps: true
 })
+
+// export schema as User
+module.exports = User = mongoose.model('user', UserSchema)
