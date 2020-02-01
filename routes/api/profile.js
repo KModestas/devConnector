@@ -118,4 +118,26 @@ router.get('/', async (req, res) => {
 	}
 })
 
+// @route GET api/profile/user/:user_id
+// @desc Get profile by user Id
+// @acess Public
+router.get('/user/:user_id', async (req, res) => {
+	try {
+		const profile = await Profile.findOne({ user: req.params.user_id }).populate('user', [
+			'name',
+			'avatar'
+		])
+
+		const Err400 = () => res.status(400).json({ msg: 'Profile not found' })
+
+		if (!profile) return Err400()
+		res.json(profiles)
+	} catch (err) {
+		console.error(err.message)
+		// if invalid user_id is entered into URL, rather than throwing server error, return 400 error
+		if (err.kind === 'ObjectId') return Err400()
+		res.status(500).send('Server Error')
+	}
+})
+
 module.exports = router
