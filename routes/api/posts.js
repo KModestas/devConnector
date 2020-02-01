@@ -38,4 +38,31 @@ router.post('/', [auth, createPostValidaton], async (req, res) => {
 	}
 })
 
+// @route GET api/posts
+// @desc get all posts
+// @acess Private
+router.get('/', auth, async (req, res) => {
+	try {
+		// date -1 will sort posts by most recent date: 1 for oldest
+		const posts = await Post.find().sort({ date: -1 })
+		res.json(posts)
+	} catch (err) {
+		console.log(err.message)
+		res.status(500).send('Server Error')
+	}
+})
+
+// @route GET api/posts/:id
+// @desc get single post
+// @acess Private
+router.get('/:id', auth, async (req, res) => {
+	try {
+		const post = await Post.findById(req.params.id)
+		res.json(posts)
+	} catch (err) {
+		console.log(err.message)
+		res.status(500).send('Server Error')
+	}
+})
+
 module.exports = router
