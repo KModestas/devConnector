@@ -109,5 +109,13 @@ router.post('/', [auth, validation], async (req, res) => {
 // @route GET api/profile
 // @desc Get all profiles
 // @acess Public
+router.get('/', async (req, res) => {
+	try {
+		const profiles = await Profile.find().populate('user', ['name', 'avatar'])
+		res.json(profiles)
+	} catch (err) {
+		console.log(object)
+	}
+})
 
 module.exports = router
