@@ -60,7 +60,7 @@ router.get('/:id', auth, async (req, res) => {
 	try {
 		const post = await Post.findById(req.params.id)
 		if (!post) return err404()
-		res.json(posts)
+		res.json(post)
 		//
 	} catch (err) {
 		console.log(err.message)
