@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
-const PostSchema = new mongoose.Schema({
+const PostSchema = new Schema({
 	user: {
 		type: Schema.Types.ObjectId,
 		ref: 'users'
@@ -41,13 +42,13 @@ const PostSchema = new mongoose.Schema({
 			},
 			date: {
 				type: Date,
-				default: Date.now
+				default: Date.now()
 			}
 		}
 	],
 	date: {
 		type: Date,
-		default: Date.now
+		default: Date.now()
 	}
 })
 
