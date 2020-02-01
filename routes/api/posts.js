@@ -56,11 +56,15 @@ router.get('/', auth, async (req, res) => {
 // @desc get single post
 // @acess Private
 router.get('/:id', auth, async (req, res) => {
+	const err404 = () => res.status(404).json({ msg: 'Post not found' })
 	try {
 		const post = await Post.findById(req.params.id)
+		if (!post) return err404()
 		res.json(posts)
+		//
 	} catch (err) {
 		console.log(err.message)
+		if (err.kind === 'ObjectId') return err404()
 		res.status(500).send('Server Error')
 	}
 })
