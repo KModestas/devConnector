@@ -9,8 +9,8 @@ const auth = require('../../middleware/auth')
 const User = require('../../models/User')
 
 // @route GET api/auth
-// @desc Test route
-// @acess Public
+// @desc Get user by token
+// @acess Private
 router.get('/', auth, async (req, res) => {
 	try {
 		// use user id which was set after jwt.verify() in auth middleware and find user in db
