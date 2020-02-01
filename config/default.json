@@ -1,4 +1,6 @@
 {
 	"mongoURI": "mongodb+srv://modestas:mongo123@cluster0-c21gx.gcp.mongodb.net/devConnector?retryWrites=true&w=majority",
-	"jwtSecret": "mysecrettoken"
+	"jwtSecret": "mysecrettoken",
+	"githubClientId": "e4a4feccbc5bbeb94ae6",
+	"githubClientSecret": "4e5b22573dae2b56eedfe61c22980267215c8558"
 }

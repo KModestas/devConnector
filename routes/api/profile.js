@@ -1,6 +1,9 @@
 const express = require('express')
 const router = express.Router()
 const { check, validationResult } = require('express-validator')
+const request = require('request')
+const githubClientId = require('config').get('githubClientId')
+const githubClientSecret = require('config').get('githubClientSecret')
 
 const auth = require('../../middleware/auth')
 const Profile = require('../../models/Profile')
@@ -120,6 +123,7 @@ router.get('/', async (req, res) => {
 // @desc Get profile by user Id
 // @acess Public
 router.get('/user/:user_id', async (req, res) => {
+	// scoped to whole route
 	const Err400 = () => res.status(400).json({ msg: 'Profile not found' })
 	try {
 		const profile = await Profile.findOne({ user: req.params.user_id }).populate('user', [
@@ -288,6 +292,35 @@ router.delete('/education/:edu_id', auth, async (req, res) => {
 
 		res.json(profile)
 		//
+	} catch (err) {
+		console.error(err.message)
+		res.status(500).send('Server Error')
+	}
+})
+
+// @route GET api/profile/github/:username
+// @desc Get user repos from github
+// @acess Public
+router.get('/github/:username', auth, (req, res) => {
+	try {
+		// options for request to github api
+		// uri is encoded using encodeURI()
+		const options = {
+			uri: encodeURI(
+				`https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=created:asc&client_id=${githubClientId}&client_secret=${githubClientSecret}`
+			),
+			method: 'GET',
+			headers: { 'user-agent': 'node.js' }
+		}
+		// make http request using request (like axios)
+		request(options, (error, response, body) => {
+			if (error) console.log(error)
+			if (response.statusCode !== 200) {
+				return res.status(400).json({ msg: 'No github profile found' })
+			}
+			// if the github profile is found, parse the body (because its a string) and send it back to your client
+			res.json(JSON.parse(body))
+		})
 	} catch (err) {
 		console.error(err.message)
 		res.status(500).send('Server Error')
