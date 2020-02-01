@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const { check, validationResult } = require('express-validator')
 
 const auth = require('../../middleware/auth')
 const Profile = require('../../models/Profile')
@@ -23,5 +24,90 @@ router.get('/me', auth, async (req, res) => {
 		res.status(500).send('Server Error')
 	}
 })
+
+const validation = [
+	check('status', 'status is required')
+		.not()
+		.isEmpty(),
+	check('skills', 'skills is required')
+		.not()
+		.isEmpty()
+]
+
+// @route POST api/profile
+// @desc Create or update user profile
+// @acess Private
+router.post('/', [auth, validation], async (req, res) => {
+	// pass in req to validationResult, which validations all fields
+	const errors = validationResult(req)
+	if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() })
+
+	const {
+		company,
+		website,
+		location,
+		bio,
+		status,
+		githubusername,
+		skills,
+		youtube,
+		facebook,
+		twitter,
+		instagram,
+		linkedin
+	} = req.body
+
+	const profileFields = {}
+	profileFields.user = req.user.id
+	if (company) profileFields.company = company
+	if (website) profileFields.website = website
+	if (location) profileFields.location = location
+	if (bio) profileFields.bio = bio
+	if (status) profileFields.status = status
+	if (githubusername) profileFields.githubusername = githubusername
+	if (skills) profileFields.skills = skills.split(',').map(skill => skill.trim())
+
+	// Build social object
+	profileFields.social = {}
+	if (youtube) profileFields.social.youtube = youtube
+	if (twitter) profileFields.social.twitter = twitter
+	if (facebook) profileFields.social.facebook = facebook
+	if (linkedin) profileFields.social.linkedin = linkedin
+	if (instagram) profileFields.social.instagram = instagram
+	// TRY THIS LATER
+	// for (key in props) {
+	// 	// if key is defined
+	// 	if (props[key]) {
+	// 		// if key is skills, split into array and trim
+	// 		key === 'skills'
+	// 			? props[key].split(',').map(skill => skill.trim())
+	// 			: (profileFields[key] = props[key])
+	// 	}
+	// }
+
+	try {
+		let profile = await Profile.findOne({ user: req.user.id })
+
+		// UPDATE existing profile
+		if (profile) {
+			// new true returns the newly updated document rather than the original prior to the update
+			await Profile.findOneAndUpdate({ user: req.user.id }, { $set: profileFields }, { new: true })
+			return res.json(profile)
+		}
+
+		// CREATE new Profile
+		profile = new Profile(profileFields)
+		await profile.save()
+		return res.json(profile)
+		//
+	} catch (err) {
+		console.error(err.message)
+		res.status(500).send('Server Error')
+	}
+})
+
+// @route GET api/profile
+// @desc Get all profiles
+// @acess Public
 
 module.exports = router
