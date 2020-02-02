@@ -27,8 +27,6 @@ const Register = ({ setAlert, register }) => {
 		}
 	}
 
-	console.log('formData ', formData)
-
 	return (
 		<>
 			<h1 className='large text-primary'>Sign Up</h1>

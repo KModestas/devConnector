@@ -20,7 +20,6 @@ export const register = ({ name, email, password }) => async dispatch => {
 			payload: res.data
 		})
 	} catch (err) {
-		console.log('HELLOOOO')
 		const errors = err.response.data.errors
 		// loop over each error and display an alert
 		if (errors) errors.forEach(error => dispatch(setAlert(error.msg, 'danger')))
