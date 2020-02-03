@@ -1,4 +1,11 @@
-import { REGISTER_SUCCESS, REGISTER_FAIL, USER_LOADED, AUTH_ERROR } from '../actions/types'
+import {
+	REGISTER_SUCCESS,
+	REGISTER_FAIL,
+	USER_LOADED,
+	AUTH_ERROR,
+	LOGIN_SUCCESS,
+	LOGIN_FAIL
+} from '../actions/types'
 
 const initialState = {
 	// access jwt token from local storage
@@ -19,9 +26,10 @@ export default function(state = initialState, action) {
 				loading: false,
 				user: payload
 			}
+		case LOGIN_SUCCESS:
 		case REGISTER_SUCCESS:
 			// if user has succesfully registered (gotten a token back from api request), set that token to their local storage
-			localStorage.setItem('token', payload)
+			localStorage.setItem('token', payload.token)
 			return {
 				...state,
 				...payload,
@@ -31,6 +39,7 @@ export default function(state = initialState, action) {
 		// multiple cases can return the same result!
 		case REGISTER_FAIL:
 		case AUTH_ERROR:
+		case LOGIN_FAIL:
 			// we never want to have an invalid token in local storage
 			localStorage.removeItem('token')
 			return {

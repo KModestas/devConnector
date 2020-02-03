@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 const jwtSecret = require('config').get('jwtSecret')
 
-module.exports = (req, res, next) => {
+module.exports = async (req, res, next) => {
 	// get token from request header
 	const token = req.header('x-auth-token')
 
@@ -9,11 +9,21 @@ module.exports = (req, res, next) => {
 
 	// verify token using secret
 	try {
-		const decoded = jwt.verify(token, jwtSecret)
-		// set decoded user to req.user to allow them to access protected routes when making requests
-		req.user = decoded.user
+		// const decoded = await jwt.verify(token, jwtSecret)
+		// // set decoded user to req.user to allow them to access protected routes when making requests
+		// req.user = decoded.user
 		// move onto the next middleware
-		next()
+		await jwt.verify(token, jwtSecret, (error, decoded) => {
+			// console.log('decoded ', decoded)
+			if (error) {
+				// console.log('error ', error)
+				res.status(401).json({ msg: 'Token is not valid' })
+			} else {
+				req.user = decoded.user
+				next()
+			}
+		})
+		// next()
 	} catch (err) {
 		res.status(401).json({ msg: 'invalid token' })
 	}
