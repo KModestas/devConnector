@@ -12,7 +12,7 @@ import setAuthToken from '../utils/setAuthToken'
 
 // once user has logged in or regsitered, prepare the user to be able to use the app, by setting their validation token onto every axios request so that they can access propected routes, and retrieve and store their user data from the db
 export const loadUser = () => async dispatch => {
-	if (localStorage.token) setAuthToken(localStorage.token)
+	setAuthToken(localStorage.token)
 	try {
 		const res = await axios.get('/api/auth')
 		dispatch({
