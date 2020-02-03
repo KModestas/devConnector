@@ -67,7 +67,6 @@ router.post('/', validation, async (req, res) => {
 			},
 			(err, token) => {
 				if (err) throw err
-				console.log('token ', token)
 				res.json({ token })
 			}
 		)

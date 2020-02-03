@@ -14,9 +14,7 @@ module.exports = async (req, res, next) => {
 		// req.user = decoded.user
 		// move onto the next middleware
 		await jwt.verify(token, jwtSecret, (error, decoded) => {
-			// console.log('decoded ', decoded)
 			if (error) {
-				// console.log('error ', error)
 				res.status(401).json({ msg: 'Token is not valid' })
 			} else {
 				req.user = decoded.user
