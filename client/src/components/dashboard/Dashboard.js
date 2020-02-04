@@ -6,13 +6,14 @@ import { connect } from 'react-redux'
 import { getCurrentProfile } from '../../actions/profile'
 import Spinner from '../layout/Spinner'
 import DashboardActions from './DashboardActions'
+import Education from './Education'
+import Experience from './Experience'
 
 const Dashboard = ({ getCurrentProfile, auth: { user }, profile: { profile, loading } }) => {
 	useEffect(() => {
 		getCurrentProfile()
 	}, [getCurrentProfile])
 
-	console.log('profile ', profile)
 	return loading && profile === null ? (
 		<Spinner />
 	) : (
@@ -22,7 +23,11 @@ const Dashboard = ({ getCurrentProfile, auth: { user }, profile: { profile, load
 				<i className='fas fa-user' /> Welcome {user && user.name}
 			</p>
 			{profile !== null ? (
-				<DashboardActions />
+				<>
+					<DashboardActions />
+					<Experience experience={profile.experience} />
+					<Education />
+				</>
 			) : (
 				<>
 					<p>You have not yet setup a profile, please add some info</p>
