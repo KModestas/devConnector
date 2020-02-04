@@ -62,6 +62,8 @@ const EditProfile = ({
 		createProfile(formData, history, true)
 	}
 
+	console.log('skills ', skills)
+
 	return (
 		<Fragment>
 			<h1 className='large text-primary'>Edit Your Profile</h1>

@@ -69,7 +69,10 @@ router.post('/', [auth, profileValidation], async (req, res) => {
 	if (bio) profileFields.bio = bio
 	if (status) profileFields.status = status
 	if (githubusername) profileFields.githubusername = githubusername
-	if (skills) profileFields.skills = skills.split(',').map(skill => skill.trim())
+	// skills will be a string for new profiles and an array for exisiting edited profiles
+	if (skills)
+		profileFields.skills =
+			typeof skills === 'string' ? skills.split(',').map(skill => skill.trim()) : skills
 
 	// Build social object
 	profileFields.social = {}
