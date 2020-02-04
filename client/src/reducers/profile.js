@@ -15,7 +15,9 @@ export default function(state = initialState, action) {
 		// used for adding experience and education (which are within the profile document)
 		case UPDATE_PROFILE:
 			return {
-				...state
+				...state,
+				profile: payload,
+				loading: false
 			}
 		case CLEAR_PROFILE:
 			return {

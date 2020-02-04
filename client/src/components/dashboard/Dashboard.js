@@ -11,6 +11,8 @@ const Dashboard = ({ getCurrentProfile, auth: { user }, profile: { profile, load
 	useEffect(() => {
 		getCurrentProfile()
 	}, [getCurrentProfile])
+
+	console.log('profile ', profile)
 	return loading && profile === null ? (
 		<Spinner />
 	) : (
