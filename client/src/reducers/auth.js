@@ -11,7 +11,7 @@ import {
 const initialState = {
 	// access jwt token from local storage
 	token: localStorage.getItem('token'),
-	isAuthenticated: null,
+	isAuthenticated: false,
 	loading: true,
 	user: null
 }

@@ -26,7 +26,7 @@ const Dashboard = ({ getCurrentProfile, auth: { user }, profile: { profile, load
 				<>
 					<DashboardActions />
 					<Experience experience={profile.experience} />
-					<Education />
+					<Education education={profile.education} />
 				</>
 			) : (
 				<>

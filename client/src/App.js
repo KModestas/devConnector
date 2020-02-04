@@ -15,9 +15,13 @@ import EditProfile from './components/profile/forms/EditProfile'
 import AddExperience from './components/profile/forms/AddExperience'
 import AddEducation from './components/profile/forms/AddEducation'
 
+import setAuthToken from './utils/setAuthToken'
 import { loadUser } from './actions/auth'
 
 import './App.css'
+
+// set token before app loads
+if (localStorage.token) setAuthToken(localStorage.token)
 
 const App = () => {
 	useEffect(() => {
