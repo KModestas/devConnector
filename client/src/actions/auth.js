@@ -7,7 +7,8 @@ import {
 	AUTH_ERROR,
 	LOGIN_SUCCESS,
 	LOGIN_FAIL,
-	LOGOUT
+	LOGOUT,
+	CLEAR_PROFILE
 } from './types'
 import setAuthToken from '../utils/setAuthToken'
 
@@ -89,6 +90,7 @@ export const register = ({ name, email, password }) => async dispatch => {
 }
 
 export const logout = () => dispatch => {
-	// dispatch({ type: CLEAR_PROFILE });
+	// clear profile needs to run after you logout because the previous logged persons profile will presist (until you refresh page)
+	dispatch({ type: CLEAR_PROFILE })
 	dispatch({ type: LOGOUT })
 }
