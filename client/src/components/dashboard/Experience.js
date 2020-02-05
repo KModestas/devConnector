@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import Moment from 'react-moment'
 import moment from 'moment'
@@ -23,7 +23,7 @@ const Experience = ({ experience, deleteExperience }) => {
 	))
 
 	return (
-		<Fragment>
+		<>
 			<h2 className='my-2'>Experience Credentials</h2>
 			<table className='table'>
 				<thead>
@@ -36,7 +36,7 @@ const Experience = ({ experience, deleteExperience }) => {
 				</thead>
 				<tbody>{allExperiences}</tbody>
 			</table>
-		</Fragment>
+		</>
 	)
 }
 

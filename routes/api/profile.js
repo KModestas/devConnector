@@ -93,16 +93,12 @@ router.post('/', [auth, profileValidation], async (req, res) => {
 	// 	}
 	// }
 	try {
-		let profile = await Profile.findOne({ user: req.user.id })
-		// UPDATE existing profile
-		if (profile) {
-			// new true returns the newly updated document rather than the original prior to the update
-			await Profile.findOneAndUpdate({ user: req.user.id }, { $set: profileFields }, { new: true })
-			return res.json(profile)
-		}
-		// CREATE new Profile
-		profile = new Profile(profileFields)
-		await profile.save()
+		// Using upsert option (creates new doc if no match is found):
+		const profile = await Profile.findOneAndUpdate(
+			{ user: req.user.id },
+			{ $set: profileFields },
+			{ new: true, upsert: true }
+		)
 		return res.json(profile)
 		//
 	} catch (err) {

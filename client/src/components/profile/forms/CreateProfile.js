@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react'
+import React, { useState } from 'react'
 import { Link, withRouter, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -43,7 +43,7 @@ const CreateProfile = ({ createProfile, profile: { profile, loading }, history }
 	return loading && profile === null ? (
 		<Redirect to='/dashboard' />
 	) : (
-		<Fragment>
+		<>
 			<h1 className='large text-primary'>Create Your Profile</h1>
 			<p className='lead'>
 				<i className='fas fa-user' /> Let's get some information to make your profile stand out
@@ -137,7 +137,7 @@ const CreateProfile = ({ createProfile, profile: { profile, loading }, history }
 					<span>Optional</span>
 				</div>
 				{displaySocialInputs && (
-					<Fragment>
+					<>
 						<div className='form-group social-input'>
 							<i className='fab fa-twitter fa-2x' />
 							<input
@@ -192,7 +192,7 @@ const CreateProfile = ({ createProfile, profile: { profile, loading }, history }
 								onChange={onChange}
 							/>
 						</div>
-					</Fragment>
+					</>
 				)}
 
 				<input type='submit' className='btn btn-primary my-1' />
@@ -200,7 +200,7 @@ const CreateProfile = ({ createProfile, profile: { profile, loading }, history }
 					Go Back
 				</Link>
 			</form>
-		</Fragment>
+		</>
 	)
 }
 
