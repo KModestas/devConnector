@@ -20,6 +20,7 @@ export default function(state = initialState, action) {
 	switch (type) {
 		case GET_PROFILE:
 		// used for adding experience and education (which are within the profile document)
+		/* falls through */
 		case UPDATE_PROFILE:
 			return {
 				...state,
