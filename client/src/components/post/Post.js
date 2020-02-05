@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import Spinner from '../layout/Spinner'
 import PostItem from '../posts/PostItem'
 import CommentForm from '../post/CommentForm'
-// import CommentItem from '../post/CommentItem'
+import CommentItem from '../post/CommentItem'
 import { getPost } from '../../actions/post'
 
 const Post = ({ getPost, post: { post, loading }, match: { params } }) => {
@@ -13,7 +13,7 @@ const Post = ({ getPost, post: { post, loading }, match: { params } }) => {
 		getPost(params.id)
 	}, [getPost, params.id])
 
-	return loading ? (
+	return loading || post === null ? (
 		<Spinner />
 	) : (
 		<>
@@ -23,11 +23,12 @@ const Post = ({ getPost, post: { post, loading }, match: { params } }) => {
 			{/* if show actions is false, like and delete functionality will not show so we can display a single post without those actions */}
 			<PostItem post={post} showActions={false} />
 			<CommentForm postId={post._id} />
-			{/* <div className='comments'>
+
+			<div className='comments'>
 				{post.comments.map(comment => (
 					<CommentItem key={comment._id} comment={comment} postId={post._id} />
 				))}
-			</div>  */}
+			</div>
 		</>
 	)
 }

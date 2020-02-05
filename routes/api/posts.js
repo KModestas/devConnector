@@ -180,7 +180,8 @@ router.post('/comment/:id', [auth, validation], async (req, res) => {
 		// add comment to start of comments array
 		post.comments.unshift(newComment)
 		await post.save()
-		res.json(post)
+		// send back comments
+		res.json(post.comments)
 	} catch (err) {
 		console.log(err.message)
 		res.status(500).send('Server Error')
@@ -196,7 +197,7 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
 		// get comment from post
 		const comment = post.comments.find(comment => comment.id === req.params.comment_id)
 
-		if (!comment) res.status(404).json({ msg: 'comment not found' })
+		if (!comment) return res.status(404).json({ msg: 'comment not found' })
 		// check if user is owner of comment
 		if (comment.user.toString() !== req.user.id) {
 			return res.status(401).json({ msg: 'user not authorised' })
