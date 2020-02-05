@@ -50,6 +50,7 @@ export default function(state = initialState, action) {
 				error: payload,
 				loading: false
 			}
+		// fires when you like or unlike a post
 		case UPDATE_LIKES:
 			return {
 				...state,

@@ -22,6 +22,7 @@ router.post('/', [auth, validation], async (req, res) => {
 	try {
 		// get all properites of user from db except password
 		const user = await User.findById(req.user.id).select('-password')
+
 		// create new Post instance with user properties
 		const newPost = new Post({
 			// text is the only user generated property in this case
