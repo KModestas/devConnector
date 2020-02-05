@@ -19,6 +19,8 @@ export const getCurrentProfile = () => async dispatch => {
 			payload: res.data
 		})
 	} catch (err) {
+		// must always clear the profile to prevent previous users data from being displayed to the current user. Ideally should have 2 seperate profile properties
+		dispatch({ type: CLEAR_PROFILE })
 		dispatch({
 			type: PROFILE_ERROR,
 			// these come from res.status().send()

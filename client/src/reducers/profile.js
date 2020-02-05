@@ -8,6 +8,7 @@ import {
 } from '../actions/types'
 
 const initialState = {
+	// profile is used to set an individual profile for the current user and any public user you view. Ideally these should be seperate.
 	profile: null,
 	profiles: [],
 	repos: [],
@@ -50,7 +51,8 @@ export default function(state = initialState, action) {
 			return {
 				...state,
 				error: payload,
-				loading: false
+				loading: false,
+				profile: null
 			}
 		default:
 			return state
