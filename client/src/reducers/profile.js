@@ -31,6 +31,12 @@ export default function(state = initialState, action) {
 				profiles: payload,
 				loading: false
 			}
+		case GET_REPOS:
+			return {
+				...state,
+				repos: payload,
+				loading: false
+			}
 		case CLEAR_PROFILE:
 			return {
 				...state,
