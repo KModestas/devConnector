@@ -83,6 +83,7 @@ export const deletePost = id => async dispatch => {
 
 // Add post
 export const addPost = formData => async dispatch => {
+	// need to add this config whenever you're sending data
 	const config = {
 		headers: {
 			'Content-Type': 'application/json'

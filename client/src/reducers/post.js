@@ -35,6 +35,7 @@ export default function(state = initialState, action) {
 		case ADD_POST:
 			return {
 				...state,
+				// display new post (payload) first
 				posts: [payload, ...state.posts],
 				loading: false
 			}
