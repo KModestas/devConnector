@@ -46,7 +46,7 @@ router.post('/', [auth, profileValidation], async (req, res) => {
 	const errors = validationResult(req)
 	if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() })
 
-	const {
+	const profileFields = ({
 		company,
 		website,
 		location,
@@ -59,17 +59,8 @@ router.post('/', [auth, profileValidation], async (req, res) => {
 		twitter,
 		instagram,
 		linkedin
-	} = req.body
+	} = req.body)
 
-	const profileFields = {}
-
-	profileFields.user = req.user.id
-	if (company) profileFields.company = company
-	if (website) profileFields.website = website
-	if (location) profileFields.location = location
-	if (bio) profileFields.bio = bio
-	if (status) profileFields.status = status
-	if (githubusername) profileFields.githubusername = githubusername
 	// skills will be a string for new profiles and an array for exisiting edited profiles
 	if (skills)
 		profileFields.skills =
@@ -99,6 +90,9 @@ router.post('/', [auth, profileValidation], async (req, res) => {
 			{ $set: profileFields },
 			{ new: true, upsert: true }
 		)
+
+		console.log('profile ', profile)
+
 		return res.json(profile)
 		//
 	} catch (err) {
