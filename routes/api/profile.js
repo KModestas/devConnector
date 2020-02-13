@@ -53,7 +53,12 @@ router.post('/', [auth, profileValidation], async (req, res) => {
 		bio,
 		status,
 		githubusername,
-		skills
+		skills,
+		youtube,
+		twitter,
+		facebook,
+		linkedin,
+		instagram
 	} = req.body)
 
 	// skills will be a string for new profiles and an array for exisiting edited profiles
