@@ -53,12 +53,7 @@ router.post('/', [auth, profileValidation], async (req, res) => {
 		bio,
 		status,
 		githubusername,
-		skills,
-		youtube,
-		facebook,
-		twitter,
-		instagram,
-		linkedin
+		skills
 	} = req.body)
 
 	// skills will be a string for new profiles and an array for exisiting edited profiles
@@ -68,21 +63,13 @@ router.post('/', [auth, profileValidation], async (req, res) => {
 
 	// Build social object
 	profileFields.social = {}
+
 	if (youtube) profileFields.social.youtube = youtube
 	if (twitter) profileFields.social.twitter = twitter
 	if (facebook) profileFields.social.facebook = facebook
 	if (linkedin) profileFields.social.linkedin = linkedin
 	if (instagram) profileFields.social.instagram = instagram
-	// TRY THIS LATER
-	// for (key in props) {
-	// 	// if key is defined
-	// 	if (props[key]) {
-	// 		// if key is skills, split into array and trim
-	// 		key === 'skills'
-	// 			? props[key].split(',').map(skill => skill.trim())
-	// 			: (profileFields[key] = props[key])
-	// 	}
-	// }
+
 	try {
 		// Using upsert option (creates new doc if no match is found):
 		const profile = await Profile.findOneAndUpdate(
@@ -90,8 +77,6 @@ router.post('/', [auth, profileValidation], async (req, res) => {
 			{ $set: profileFields },
 			{ new: true, upsert: true }
 		)
-
-		console.log('profile ', profile)
 
 		return res.json(profile)
 		//
