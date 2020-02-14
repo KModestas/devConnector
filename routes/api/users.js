@@ -62,10 +62,10 @@ router.post('/', validation, async (req, res) => {
 		jwt.sign(
 			payload,
 			jwtSecret,
-			// {
-			// 	// 1 hour
-			// 	expiresIn: 3600
-			// },
+			{
+				// 1 hour
+				expiresIn: 3600
+			},
 			(err, token) => {
 				if (err) throw err
 				res.json({ token })
