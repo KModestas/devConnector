@@ -47,7 +47,7 @@ router.post('/', validation, async (req, res) => {
 
 		if (!user) return Err400()
 
-		// compare password user has typed in to the one on the Db
+		// compare password user has typed in to the one in the Db
 		const passwordMatches = await bcrypt.compare(password, user.password)
 
 		if (!passwordMatches) return Err400()
@@ -62,7 +62,6 @@ router.post('/', validation, async (req, res) => {
 			payload,
 			jwtSecret,
 			{
-				// 1 hour
 				expiresIn: '24h'
 			},
 			(err, token) => {
