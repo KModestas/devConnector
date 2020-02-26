@@ -7,16 +7,15 @@ module.exports = async (req, res, next) => {
 
 	if (!token) return res.status(401).json({ msg: 'No token, authorisation denied' })
 
-	// verify token using secret
+	// at this point req.user is UNDEFINED
+	// verify token using secret, if invalid return error
+	// if successful,  ecode the token and retrieve the userId, then set it to req.user.id so that you can use it to get user data (in /me route)
 	try {
-		// const decoded = await jwt.verify(token, jwtSecret)
-		// // set decoded user to req.user to allow them to access protected routes when making requests
-		// req.user = decoded.user
-		// move onto the next middleware
 		await jwt.verify(token, jwtSecret, (error, decoded) => {
 			if (error) res.status(401).json({ msg: 'Token is not valid' })
 			else {
 				req.user = decoded.user
+				// decoded.user => { id: '5e343dd888346a2b366c2105' }
 				next()
 			}
 		})
