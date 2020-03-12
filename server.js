@@ -6,6 +6,7 @@ const app = express()
 connectDB()
 
 // Middleware
+// app.use() is middleware that runs for ALL requests
 // parse req.body requests => extended false does not allow nested objects
 app.use(express.json({ extended: false }))
 
