@@ -1,5 +1,5 @@
-import axios from 'axios'
-import { setAlert } from './alert'
+import axios from 'axios';
+import { setAlert } from './alert';
 import {
 	REGISTER_SUCCESS,
 	REGISTER_FAIL,
@@ -9,24 +9,24 @@ import {
 	LOGIN_FAIL,
 	LOGOUT,
 	CLEAR_PROFILE
-} from './types'
-import setAuthToken from '../utils/setAuthToken'
+} from './types';
+import setAuthToken from '../utils/setAuthToken';
 
 // once user has logged in or regsitered, prepare the user to be able to use the app, by setting their validation token onto every axios request so that they can access propected routes, and retrieve and store their user data from the db
 export const loadUser = () => async dispatch => {
-	setAuthToken(localStorage.token)
+	setAuthToken(localStorage.token);
 	try {
-		const res = await axios.get('/api/auth')
+		const res = await axios.get('/api/auth');
 		dispatch({
 			type: USER_LOADED,
 			payload: res.data
-		})
+		});
 	} catch (err) {
 		dispatch({
 			type: AUTH_ERROR
-		})
+		});
 	}
-}
+};
 
 // Login User
 export const login = (email, password) => async dispatch => {
@@ -34,31 +34,31 @@ export const login = (email, password) => async dispatch => {
 		headers: {
 			'Content-Type': 'application/json'
 		}
-	}
+	};
 
-	const body = JSON.stringify({ email, password })
+	const body = JSON.stringify({ email, password });
 
 	try {
-		const res = await axios.post('/api/auth', body, config)
+		const res = await axios.post('/api/auth', body, config);
 
 		dispatch({
 			type: LOGIN_SUCCESS,
 			payload: res.data
-		})
+		});
 
-		dispatch(loadUser())
+		dispatch(loadUser());
 	} catch (err) {
-		const errors = err.response.data.errors
+		const errors = err.response.data.errors;
 
 		if (errors) {
-			errors.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+			errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
 		}
 
 		dispatch({
 			type: LOGIN_FAIL
-		})
+		});
 	}
-}
+};
 
 // Register User
 export const register = ({ name, email, password }) => async dispatch => {
@@ -67,30 +67,30 @@ export const register = ({ name, email, password }) => async dispatch => {
 		headers: {
 			'Content-Type': 'application/json'
 		}
-	}
+	};
 
-	const body = JSON.stringify({ name, email, password })
+	const body = JSON.stringify({ name, email, password });
 
 	try {
-		const res = await axios.post('/api/users', body, config)
+		const res = await axios.post('/api/users', body, config);
 		dispatch({
 			type: REGISTER_SUCCESS,
 			payload: res.data
-		})
-		dispatch(loadUser())
+		});
+		dispatch(loadUser());
 	} catch (err) {
-		const errors = err.response.data.errors
+		const errors = err.response.data.errors;
 		// loop over each error and display an alert
-		if (errors) errors.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+		if (errors) errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
 
 		dispatch({
 			type: REGISTER_FAIL
-		})
+		});
 	}
-}
+};
 
 export const logout = () => dispatch => {
 	// clear profile needs to run after you logout because the previous logged persons profile will presist (until you refresh page)
-	dispatch({ type: CLEAR_PROFILE })
-	dispatch({ type: LOGOUT })
-}
+	dispatch({ type: CLEAR_PROFILE });
+	dispatch({ type: LOGOUT });
+};
